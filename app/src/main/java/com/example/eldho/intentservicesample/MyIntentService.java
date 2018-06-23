@@ -8,20 +8,19 @@ import android.widget.Toast;
 import static com.example.eldho.intentservicesample.Values.clickCountBtn1;
 import static com.example.eldho.intentservicesample.Values.clickCountBtn2;
 
-
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions and extra parameters.
+ * According to the string which get passed into the action we increment the associated counter values
+ * pass the incremented values as parameters for the saving into shared pref fns
  */
+
+
 public class MyIntentService extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
 
     public static final String ACTION_FOO = Values.KEY_COUNT_1;
     public static final String ACTION_BAZ = Values.KEY_COUNT_2;
-
+    public static final String ACTION_IGNORE_NOTIFICATION = Values.IGNORE_NOTIFICATION;
 
     public MyIntentService() {
 
@@ -31,24 +30,22 @@ public class MyIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            final String action = intent.getAction();
+            final String action = intent.getAction(); // gets string here
             if (ACTION_FOO.equals(action)) {
                 clickCountBtn1 += 1;
-               handleActionFoo(clickCountBtn1);
+                saveIntoSharedPrefs1(clickCountBtn1);
+                //can add clear notification fn here if necessary
             } else if (ACTION_BAZ.equals(action)) {
                 clickCountBtn2 += 1;
-                handleActionBaz(clickCountBtn2);
+                saveIntoSharedPrefs2(clickCountBtn2);
+            } else if (ACTION_IGNORE_NOTIFICATION.equals(action)) {
+                NotificationUtils.clearAllNotifications(getApplicationContext()); // to clear the notification fn
             }
         }
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
 
-    private void handleActionFoo(int clicks) {
-        // TODO: Handle action Foo
+    private void saveIntoSharedPrefs1(int clicks) {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("keyCountOne", clicks);
@@ -56,13 +53,9 @@ public class MyIntentService extends IntentService {
         editor.apply();
     }
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
 
-    private void handleActionBaz(int clicks) {
-        // TODO: Handle action Baz
+    private void saveIntoSharedPrefs2(int clicks) {
+
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("keyCountTwo", clicks);

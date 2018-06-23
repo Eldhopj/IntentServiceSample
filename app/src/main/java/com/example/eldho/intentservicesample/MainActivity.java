@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateCount1(View view) {
         Intent myIntent = new Intent(getApplicationContext(),MyIntentService.class);
-        myIntent.setAction(Values.KEY_COUNT_1);
+        myIntent.setAction(Values.KEY_COUNT_1); // passing value into Intent service using .setAction
         startService(myIntent);
     }
 
@@ -23,5 +23,12 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(),MyIntentService.class);
         myIntent.setAction(Values.KEY_COUNT_2);
         startService(myIntent);
+    }
+
+    /**
+     * Notification
+     */
+    public void testNotification(View view) {
+        NotificationUtils.createNotifications(getApplicationContext());
     }
 }
