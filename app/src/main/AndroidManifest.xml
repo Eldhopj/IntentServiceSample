@@ -22,6 +22,16 @@
         <service
             android:name=".MyIntentService"
             android:exported="false"></service>
+
+        <!--Firebase jobService-->
+        <service
+            android:name=".FirebaseJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

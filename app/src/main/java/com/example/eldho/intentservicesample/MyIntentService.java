@@ -21,6 +21,7 @@ public class MyIntentService extends IntentService {
     public static final String ACTION_FOO = Values.KEY_COUNT_1;
     public static final String ACTION_BAZ = Values.KEY_COUNT_2;
     public static final String ACTION_IGNORE_NOTIFICATION = Values.IGNORE_NOTIFICATION;
+    public static final String ACTION_JOB_REMINDER = Values.JOB_REMINDER;
 
     public MyIntentService() {
 
@@ -41,6 +42,18 @@ public class MyIntentService extends IntentService {
             } else if (ACTION_IGNORE_NOTIFICATION.equals(action)) {
                 NotificationUtils.clearAllNotifications(getApplicationContext()); // to clear the notification fn
             }
+            //Job service
+            else if (ACTION_JOB_REMINDER.equals(action)) {
+                //Getting value from shared prefs
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                Values.jobCalls = pref.getInt("jobCount", 0);
+                //Getting value from shared prefs ends here
+                Values.jobCalls += 1;
+                saveIntoJobReminderSharedPrefs(Values.jobCalls);
+
+                NotificationUtils.createNotifications(getApplicationContext()); // Show notification
+            }
+
         }
     }
 
@@ -53,9 +66,16 @@ public class MyIntentService extends IntentService {
         editor.apply();
     }
 
+    private void saveIntoJobReminderSharedPrefs(int clicks) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("jobCount", clicks);
+        Toast.makeText(this, Integer.toString(clicks), Toast.LENGTH_SHORT).show();
+        editor.apply();
+    }
+
 
     private void saveIntoSharedPrefs2(int clicks) {
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("keyCountTwo", clicks);

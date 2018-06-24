@@ -21,9 +21,7 @@ public class NotificationUtils {
     private static final int ACTION_INCREMENT_PENDING_INTENT_ID_TWO = 2;
     private static final int ACTION_IGNORE_PENDING_INTENT_ID = 14;
 
-    /**
-     * Allows to relaunch the app when we click the notification
-     */
+    //Allows to relaunch the app when we click the notification
     private static PendingIntent contentIntent(Context context) {
 
         Intent startActivityIntent = new Intent(context, MainActivity.class);

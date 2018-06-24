@@ -1,5 +1,7 @@
 package com.example.eldho.intentservicesample;
-
+/**
+ * Aim: 1.IntentService 2.Notification with actions 3.Added FirebaseJobService
+ */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**FireBase Job Service*/
+        FirebaseJobDispatcherClass.scheduleChargingReminder(getApplicationContext());
     }
 
     public void updateCount1(View view) {
